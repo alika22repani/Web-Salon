@@ -1,0 +1,62 @@
+
+{% extends 'base.html' %} {% block content %}
+
+<h2 style="color: #d63384">Form Reservasi</h2><form method="POST">
+  <div>
+    <label for="pelanggan">Pelanggan:</label>
+    <select name="pelanggan" required>
+      {% for p in pelanggan_list %}
+        <option value="{{ p.id }}">{{ p.nama }}</option>
+      {% endfor %}
+    </select>
+  </div>  <div>
+    <label for="layanan">Layanan:</label>
+    <select name="layanan" required>
+      {% for l in layanan_list %}
+        <option value="{{ l.id }}">{{ l.nama }} - Rp{{ l.harga }}</option>
+      {% endfor %}
+    </select>
+  </div>  <div>
+    <label for="karyawan">Karyawan:</label>
+    <select name="karyawan" required>
+      {% for k in karyawan_list %}
+        <option value="{{ k.id }}">{{ k.nama }}</option>
+      {% endfor %}
+    </select>
+  </div>  <div>
+    <label for="tanggal">Tanggal Reservasi:</label>
+    <input type="date" name="tanggal" required>
+  </div><button type="submit" style="background-color: #ff69b4; color: white; padding: 5px 15px; border: none; border-radius: 5px;">Tambah Reservasi</button>
+
+</form><hr><h2 style="color: #d63384">Data Reservasi</h2>
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead style="background-color: #f8d7da;">
+    <tr>
+      <th>No</th>
+      <th>Nama Pelanggan</th>
+      <th>Layanan</th>
+      <th>Karyawan</th>
+      <th>Tanggal</th>
+      <th>Total Harga</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r, p, l, k in reservasi_list %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ p.nama }}</td>
+      <td>{{ l.nama }}</td>
+      <td>{{ k.nama }}</td>
+      <td>{{ r.tanggal }}</td>
+      <td>Rp{{ r.total_harga }}</td>
+      <td><a href="{{ url_for('hapus_reservasi', id=r.id) }}" style="color: red;" onclick="return confirm('Hapus data ini?')">Hapus</a></td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="7" style="text-align:center;">Belum ada reservasi</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

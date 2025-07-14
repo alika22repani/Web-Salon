@@ -1,0 +1,51 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<h2>Tambah Layanan</h2>
+
+<form method="POST" enctype="multipart/form-data">
+  <div>
+    <label>Nama Layanan:</label><br>
+    <input type="text" name="nama" required>
+  </div>
+  <div>
+    <label>Harga:</label><br>
+    <input type="number" name="harga" required>
+  </div>
+  <div>
+    <label>Foto:</label><br>
+    <input type="file" name="foto" required>
+  </div>
+  <button type="submit">Tambah Layanan</button>
+</form>
+
+<hr>
+
+<h2>Daftar Layanan</h2>
+<table border="1" cellpadding="5">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Foto</th>
+      <th>Nama</th>
+      <th>Harga</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for l in layanan %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>
+        {% if l.foto %}
+          <img src="{{ url_for('static', filename='uploads/' + l.foto) }}" width="100">
+        {% else %}
+          (Tidak ada foto)
+        {% endif %}
+      </td>
+      <td>{{ l.nama }}</td>
+      <td>Rp{{ l.harga }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

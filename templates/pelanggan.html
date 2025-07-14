@@ -1,0 +1,50 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Data Pelanggan</h2>
+
+<form method="POST" enctype="multipart/form-data">
+  <label>Nama</label><br>
+  <input type="text" name="nama" required><br><br>
+
+  <label>Nomor Telepon</label><br>
+  <input type="text" name="telepon" required><br><br>
+
+  <label>Foto</label><br>
+  <input type="file" name="foto" accept="image/*" required><br><br>
+
+  <button type="submit">Tambah</button>
+</form>
+
+<hr>
+
+<table border="1" cellpadding="10">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Nama</th>
+      <th>Telepon</th>
+      <th>Foto</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for pelanggan in data_pelanggan %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ pelanggan.nama }}</td>
+      <td>{{ pelanggan.telepon }}</td>
+      <td>
+        <img src="{{ url_for('static', filename='uploads/' ~ pelanggan.foto) }}" width="80">
+      </td>
+      <td>
+        <a href="{{ url_for('hapus_pelanggan', id=pelanggan.id) }}" onclick="return confirm('Yakin ingin hapus?')">
+          <button>Hapus</button>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
